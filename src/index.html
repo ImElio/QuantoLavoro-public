@@ -1,1 +1,205 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuantoLavoro?</title>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <!--CSS-->
+  <link rel="stylesheet" href="style.css" />
+  <!--Manifest & Android/Chrome-->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3498db">
+  <!--Meta Tag IOS-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <!--Icon-->
+  <link rel="icon" type="image/x-icon" href="images/icons/favicon.ico">
+</head>
+<body>
+  <!-- Sezione Login/Registrazione centrata -->
+  <div class="auth-container" id="auth-container">
+    <div class="auth-toggle">
+      <button id="show-login" class="toggle-btn active">Accedi</button>
+      <button id="show-register" class="toggle-btn">Registrati</button>
+    </div>
+    <div id="login-panel" class="auth-panel">
+      <h2>Accedi</h2>
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button id="login-btn">Accedi</button>
+    </div>
+    <div id="register-panel" class="auth-panel hidden">
+      <h2>Registrati</h2>
+      <input type="email" id="register-email" placeholder="Email" />
+      <input type="password" id="register-password" placeholder="Password" />
+      <button id="register-btn">Registrati</button>
+    </div>
+  </div>
 
+  <!-- Contenitore principale dell'app -->
+  <div class="container hidden" id="app-container">
+    <div id="top-bar">
+      <div class="left">
+        <h1>QuantoLavoro</h1>
+        <div class="version-info">Versione 1.0 | Sviluppato da Elio</div>
+      </div>
+      <div class="center">
+        <span class="total-label">Totale Ore: <span id="total-hours">0</span></span>
+        <button id="reset">Reset Settimana</button>
+      </div>
+      <div class="right">
+        <button id="logout-btn">Logout</button>
+      </div>
+    </div>
+
+    <main>
+      <div class="post-it" id="lunedi" data-selected-color="#fffa87">
+        <h3>Lunedi</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="martedi" data-selected-color="#fffa87">
+        <h3>Martedi</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="mercoledi" data-selected-color="#fffa87">
+        <h3>Mercoledi</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="giovedi" data-selected-color="#fffa87">
+        <h3>Giovedi</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="venerdi" data-selected-color="#fffa87">
+        <h3>Venerdi</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="sabato" data-selected-color="#fffa87">
+        <h3>Sabato</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+
+      <div class="post-it" id="domenica" data-selected-color="#fffa87">
+        <h3>Domenica</h3>
+        <div class="color-picker-inline">
+          <span class="color-option" data-color="#fffa87" style="background-color: #fffa87;"></span>
+          <span class="color-option" data-color="#a8e6cf" style="background-color: #a8e6cf;"></span>
+          <span class="color-option" data-color="#dcedc1" style="background-color: #dcedc1;"></span>
+          <span class="color-option" data-color="#ffd3b6" style="background-color: #ffd3b6;"></span>
+        </div>
+        <div class="shift1">
+          <label>Inizio: <input type="time" class="start-time"></label>
+          <label>Fine: <input type="time" class="end-time"></label>
+        </div>
+        <button class="add-shift2">➕</button>
+        <div class="shift2 hidden">
+          <label>Inizio turno 2: <input type="time" class="start-time2"></label>
+          <label>Fine turno 2: <input type="time" class="end-time2"></label>
+        </div>
+        <p>Ore Lavorate: <span class="daily-hours"></span></p>
+      </div>
+    </main>
+  </div>
+
+  <script src="backend.js"></script>
+</body>
+</html>
