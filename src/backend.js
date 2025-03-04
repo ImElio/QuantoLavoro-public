@@ -3,7 +3,7 @@
  *******************************************/
 const firebaseConfig = {
   apiKey: "TUO_API_KEY",
-  authDomain: "TUO_DOMINIO.firebaseapp.com",
+  authDomain: "TUO_DOMINIO.firebaseapp.com", // Anche link vercel, Netlify app
   projectId: "TUO_PROJECT_ID",
   storageBucket: "TUO_BUCKET",
   messagingSenderId: "TUO_SENDER_ID",
